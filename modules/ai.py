@@ -16,19 +16,19 @@ def ai(command_queue, control_queue, monitor_queue):
         # Process the message
         if command_message.message_type == CommandMessageType.TEST_AI:
             # Test the AI
-            # HACK: do nothing
+            # TODO: implement self-testing
             pass
 
         elif command_message.message_type == CommandMessageType.NAVIGATE_TO_DIRECTION:
             # Navigate to the direction specified
             direction = command_message.direction
-            # HACK: do nothing
+            # TODO: implement navigation
 
         elif command_message.message_type == CommandMessageType.NAVIGATE_TO_POSITION:
             # Navigate to the position specified
             position_x = command_message.position_x
             position_y = command_message.position_y
-            # HACK: do nothing
+            # TODO: implement navigation
 
         elif command_message.message_type == CommandMessageType.STOP_AI:
             # Exit the loop and let the thread stop

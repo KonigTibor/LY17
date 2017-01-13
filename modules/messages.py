@@ -1,6 +1,6 @@
 """Contains message type enumerations and message classes"""
 
-from enum import Enum
+from enum import Enum, auto
 
 # Command messages are sent from the skipper to the AI via the command queue
 # They are high-level instructions like "Navigate to position 10, 20"
@@ -8,8 +8,8 @@ from enum import Enum
 class CommandMessageType(Enum):
     """Implements the CommandMessageType enumeration"""
     TEST_AI = 100
-    NAVIGATE_TO_DIRECTION = 101
-    NAVIGATE_TO_POSITION = 102
+    NAVIGATE_TO_DIRECTION = auto()
+    NAVIGATE_TO_POSITION = auto()
     STOP_AI = 199
 
 class CommandMessage(object):
@@ -28,13 +28,14 @@ class CommandMessage(object):
 class ControlMessageType(Enum):
     """Implements the ControlMessageType enumeration"""
     TEST_LANDYACHT = 200
-    GET_STEERING_WHEEL_ANGLE = 201
-    GET_SAIL_ANGLE = 202
-    GET_WIND_DIRECTION = 203
-    GET_LANDYACHT_DIRECTION = 204
-    GET_LANDYACHT_POSITION = 205
-    TURN_STEERING_WHEEL = 206
-    TURN_SAIL = 207
+    GET_STEERING_WHEEL_ANGLE = auto()
+    GET_SAIL_ANGLE = auto()
+    GET_WIND_DIRECTION = auto()
+    GET_LANDYACHT_DIRECTION = auto()
+    GET_LANDYACHT_POSITION = auto()
+    GET_LANDYACHT_SPEED = auto()
+    TURN_STEERING_WHEEL = auto()
+    TURN_SAIL = auto()
     STOP_LANDYACHT = 299
 
 class ControlMessage(object):
@@ -50,20 +51,22 @@ class ControlMessage(object):
 
 class MonitorMessageType(Enum):
     """Implements the MonitorMessageType enumeration"""
-    #TEST_SKIPPER = 300
-    STEERING_WHEEL_ANGLE = 301
-    SAIL_ANGLE = 302
-    WIND_DIRECTION = 303
-    LANDYACHT_DIRECTION = 304
-    LANDYACHT_POSITION = 305
+    TEST_SKIPPER = 300
+    STEERING_WHEEL_ANGLE = auto()
+    SAIL_ANGLE = auto()
+    WIND_DIRECTION = auto()
+    LANDYACHT_DIRECTION = auto()
+    LANDYACHT_POSITION = auto()
+    LANDYACHT_SPEED = auto()
 
 class MonitorMessage(object):
     """Implements the MonitorMessage class"""
 
-    def __init__(self, message_type, angle=None, direction=None, position_x=None, position_y=None):
+    def __init__(self, message_type, angle=None, direction=None, position_x=None, position_y=None, speed=None):
         """Instantiates a MonitorMessage"""
         self.message_type = message_type
         self.angle = angle
         self.direction = direction
         self.position_x = position_x
         self.position_y = position_y
+        self.speed = speed
