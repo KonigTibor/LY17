@@ -8,6 +8,7 @@ from enum import Enum, auto
 class CommandMessageType(Enum):
     """Implements the CommandMessageType enumeration"""
     TEST_AI = 100
+    CONTINUE_COURSE = auto()
     NAVIGATE_TO_DIRECTION = auto()
     NAVIGATE_TO_POSITION = auto()
     STOP_AI = 199
