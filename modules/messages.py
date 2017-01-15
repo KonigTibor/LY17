@@ -29,6 +29,7 @@ class CommandMessage(object):
 class ControlMessageType(Enum):
     """Implements the ControlMessageType enumeration"""
     TEST_LANDYACHT = 200
+    CONTINUE_OPERATION = auto()
     GET_LANDYACHT_STATUS = auto()
     TURN_STEERING_WHEEL = auto()
     TURN_SAIL = auto()

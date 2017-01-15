@@ -4,12 +4,11 @@ from queue import Queue, Empty
 
 from .messages import CommandMessageType, CommandMessage
 from .messages import ControlMessageType, ControlMessage
-from .messages import MonitorMessageType
 
 def ai(command_queue, control_queue, monitor_queue):
     """Implements the ai module"""
 
-    # Variable to store the last message
+    # Create a variable to store the last message
     command_message = CommandMessage(CommandMessageType.CONTINUE_COURSE)
 
     # Run until a STOP_AI command message is received
@@ -31,14 +30,26 @@ def ai(command_queue, control_queue, monitor_queue):
 
             elif command_message.message_type == CommandMessageType.NAVIGATE_TO_DIRECTION:
                 # Navigate to the direction specified
-                direction = command_message.direction
-                # TODO: implement navigation
+                # Store the requested direction
+                target_direction = command_message.direction
+                # Get the current status of the land yacht
+                control_message = ControlMessage(ControlMessageType.GET_LANDYACHT_STATUS)
+                control_queue.put(control_message)
+                monitor_message = monitor_queue.get()
+                # Compute the required direction change
+                current_direction = monitor_message.landyacht_direction
+                angle = target_direction - current_direction
+                if angle > 360:
+                    angle %= 360
+                elif angle < -360:
+                    angle %= -360
+                # Send the direction change to the land yacht
+                message = ControlMessage(ControlMessageType.TURN_STEERING_WHEEL, angle)
+                control_queue.put(message)
 
             elif command_message.message_type == CommandMessageType.NAVIGATE_TO_POSITION:
-                # Navigate to the position specified
-                position_x = command_message.position_x
-                position_y = command_message.position_y
-                # TODO: implement navigation
+                # TODO: implement navigation to position
+                pass
 
             elif command_message.message_type == CommandMessageType.STOP_AI:
                 # Exit the loop and let the thread stop
