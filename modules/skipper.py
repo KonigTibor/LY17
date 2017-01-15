@@ -22,91 +22,47 @@ def skipper(command_queue, control_queue, monitor_queue):
             # Display help
             display_help()
 
-        elif choice == Operation.GET_STEERING_WHEEL_ANGLE.value:
-            # Get the (relative) angle of the steering wheel
-            # Create and send a GET_STEERING_WHEEL_ANGLE message to the land yacht
-            control_message = ControlMessage(ControlMessageType.GET_STEERING_WHEEL_ANGLE)
+        elif choice == Operation.GET_LANDYACHT_STATUS.value:
+            # Get the overall status of the land yacht
+            # Create and send a GET_LANDYACHT_STATUS message to tle land yacht
+            control_message = ControlMessage(ControlMessageType.GET_LANDYACHT_STATUS)
             control_queue.put(control_message)
-            # Wait for the requested data from the land yacht
+            # Wait from the requested data from the land yacht
             monitor_message = monitor_queue.get()
             # Display the data
-            print("Steering wheel angle: {} degrees".format(monitor_message.angle))
-
-        elif choice == Operation.GET_SAIL_ANGLE.value:
-            # Get the (relative) angle of the sail
-            # Create and send a GET_SAIL_ANGLE message to the land yacht
-            control_message = ControlMessage(ControlMessageType.GET_SAIL_ANGLE)
-            control_queue.put(control_message)
-            # Wait for the requested data from the land yacht
-            monitor_message = monitor_queue.get()
-            # Display the data
-            print("Sail angle: {} degrees".format(monitor_message.angle))
-
-        elif choice == Operation.GET_WIND_DIRECTION.value:
-            # Get the (relative) direction of the wind
-            # Create and send a GET_WIND_DIRECTION message to the land yacht
-            control_message = ControlMessage(ControlMessageType.GET_WIND_DIRECTION)
-            control_queue.put(control_message)
-            # Wait for the requested data from the land yacht
-            monitor_message = monitor_queue.get()
-            # Display the data
-            print("Wind direction: {} degrees".format(monitor_message.direction))
-
-        elif choice == Operation.GET_LANDYACHT_DIRECTION.value:
-            # Get the (absolute) direction of the land yacht
-            # Create and send a GET_LANDYACHT_DIRECTION message to the land yacht
-            control_message = ControlMessage(ControlMessageType.GET_LANDYACHT_DIRECTION)
-            control_queue.put(control_message)
-            # Wait for the requested data from the land yacht
-            monitor_message = monitor_queue.get()
-            # Display the data
-            print("Land yacht direction: {} degrees".format(monitor_message.direction))
-
-        elif choice == Operation.GET_LANDYACHT_POSITION.value:
-            # Get the (absolute) position of the land yacht
-            # Create and send a GET_LANDYACHT_POSITION message to the land yacht
-            control_message = ControlMessage(ControlMessageType.GET_LANDYACHT_POSITION)
-            control_queue.put(control_message)
-            # Wait for the requested data from the land yacht
-            monitor_message = monitor_queue.get()
-            # Display the data
-            print("Land yacht position: {}, {}".format(monitor_message.position_x, monitor_message.position_y))
-
-        elif choice == Operation.GET_LANDYACHT_SPEED.value:
-            # Get the speed of the land yacht
-            # Create and send a GET_LANDYACHT_SPEED message to the land yacht
-            control_message = ControlMessage(ControlMessageType.GET_LANDYACHT_SPEED)
-            control_queue.put(control_message)
-            # Wait for the requested data from the land yacht
-            monitor_message = monitor_queue.get()
-            # Display the data
-            print("Land yacht speed: {}".format(monitor_message.speed))
+            print("Steering wheel angle: {} degrees".format(monitor_message.steering_wheel_angle))
+            print("Sail angle: {} degrees".format(monitor_message.sail_angle))
+            print("Wind direction: {} degrees".format(monitor_message.wind_direction))
+            print("Land yacht direction: {} degrees".format(monitor_message.landyacht_direction))
+            print("Land yacht X position: {}".format(monitor_message.landyacht_position_x))
+            print("Land yacht Y position: {}".format(monitor_message.landyacht_position_y))
+            print("Land yacht speed: {}".format(monitor_message.landyacht_speed))
 
         elif choice == Operation.TURN_STEERING_WHEEL.value:
             # Turn the steering wheel by the angle specified by the user
-            angle = int(input("Enter the new angle: "))
+            angle = int(input("Enter the new angle for the steering wheel: "))
             # Create and send a TURN_STEERING_WHEEL message to the land yacht
             control_message = ControlMessage(ControlMessageType.TURN_STEERING_WHEEL, angle=angle)
             control_queue.put(control_message)
 
         elif choice == Operation.TURN_SAIL.value:
             # Turn the sail by the angle specified by the user
-            angle = int(input("Enter the new angle: "))
+            angle = int(input("Enter the new angle for the sail: "))
             # Create and send a TURN_SAIL message to the land yacht
             control_message = ControlMessage(ControlMessageType.TURN_SAIL, angle=angle)
             control_queue.put(control_message)
 
         elif choice == Operation.NAVIGATE_TO_DIRECTION.value:
             # Navigate to the direction specified by the user
-            direction = int(input("Enter the new direction: "))
+            direction = int(input("Enter the direction of the navigation target: "))
             # Create and send a NAVIGATE_TO_DIRECTION message to the AI
             command_message = CommandMessage(CommandMessageType.NAVIGATE_TO_DIRECTION, direction=direction)
             command_queue.put(command_message)
 
         elif choice == Operation.NAVIGATE_TO_POSITION.value:
             # Navigate to the position specified by the user
-            position_x = int(input("Enter the X position: "))
-            position_y = int(input("Enter the Y position: "))
+            position_x = int(input("Enter the X position of the navigation target: "))
+            position_y = int(input("Enter the Y position of the navigation target: "))
             # Create and send a NAVIGATE_TO_POSITION message to the AI
             command_message = CommandMessage(CommandMessageType.NAVIGATE_TO_POSITION, position_x=position_x, position_y=position_y)
             command_queue.put(command_message)
@@ -122,16 +78,16 @@ def skipper(command_queue, control_queue, monitor_queue):
             # Exit the loop and let the thread stop
             break
 
+        else:
+            # Notify the user that there is no such command and display help
+            print("There is no such command.")
+            display_help()
+
 def display_help():
     """Displays the list of available operations"""
     print("Operations:")
     print("{} - Display help".format(Operation.DISPLAY_HELP.value))
-    print("{} - Get the angle of the steering wheel".format(Operation.GET_STEERING_WHEEL_ANGLE.value))
-    print("{} - Get the angle of the sail".format(Operation.GET_SAIL_ANGLE.value))
-    print("{} - Get the direction of the wind".format(Operation.GET_WIND_DIRECTION.value))
-    print("{} - Get the direction of the land yacht".format(Operation.GET_LANDYACHT_DIRECTION.value))
-    print("{} - Get the position of the land yacht".format(Operation.GET_LANDYACHT_POSITION.value))
-    print("{} - Get the speed of the land yacht".format(Operation.GET_LANDYACHT_SPEED.value))
+    print("{} - Get the status of the land yacht".format(Operation.GET_LANDYACHT_STATUS.value))
     print("{} - Turn the steering wheel".format(Operation.TURN_STEERING_WHEEL.value))
     print("{} - Turn the sail".format(Operation.TURN_SAIL.value))
     print("{} - Navigate to direction".format(Operation.NAVIGATE_TO_DIRECTION.value))
@@ -141,14 +97,9 @@ def display_help():
 class Operation(Enum):
     """Implements the Operation enumeration"""
     DISPLAY_HELP = 0
-    GET_STEERING_WHEEL_ANGLE = auto()
-    GET_SAIL_ANGLE = auto()
-    GET_WIND_DIRECTION = auto()
-    GET_LANDYACHT_DIRECTION = auto()
-    GET_LANDYACHT_POSITION = auto()
-    GET_LANDYACHT_SPEED = auto()
+    GET_LANDYACHT_STATUS = auto()
     TURN_STEERING_WHEEL = auto()
     TURN_SAIL = auto()
     NAVIGATE_TO_DIRECTION = auto()
     NAVIGATE_TO_POSITION = auto()
-    STOP_LANDYACHT = 99
+    STOP_LANDYACHT = 9

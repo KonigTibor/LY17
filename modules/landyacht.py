@@ -31,60 +31,25 @@ def landyacht(control_queue, monitor_queue):
             # TODO: implement self-testing
             pass
 
-        elif control_message.message_type == ControlMessageType.GET_STEERING_WHEEL_ANGLE:
-            # Get the current angle of the steering wheel
-            angle = steering_wheel.get_angle()
+        elif control_message.message_type == ControlMessageType.GET_LANDYACHT_STATUS:
+            # Get the current status of the land yacht
+            steering_wheel_angle = steering_wheel.get_angle()
+            sail_angle = sail.get_angle()
+            wind_direction = vane.get_direction()
+            landyacht_direction = compass.get_direction()
+            landyacht_position_x = gps.get_position_x()
+            landyacht_position_y = gps.get_position_y()
+            landyacht_speed = speedometer.get_speed()
             # Create a monitor message and put it into the monitor queue
             monitor_message = MonitorMessage(
-                MonitorMessageType.STEERING_WHEEL_ANGLE,
-                angle=angle)
-            monitor_queue.put(monitor_message)
-
-        elif control_message.message_type == ControlMessageType.GET_SAIL_ANGLE:
-            # Get the current angle of the sail
-            angle = sail.get_angle()
-            # Create a monitor message and put it into the monitor queue
-            monitor_message = MonitorMessage(
-                MonitorMessageType.SAIL_ANGLE,
-                angle=angle)
-            monitor_queue.put(monitor_message)
-
-        elif control_message.message_type == ControlMessageType.GET_WIND_DIRECTION:
-            # Get the current direction of the wind from the vane
-            direction = vane.get_direction()
-            # Create a monitor message and put it into the monitor queue
-            monitor_message = MonitorMessage(
-                MonitorMessageType.WIND_DIRECTION,
-                direction=direction)
-            monitor_queue.put(monitor_message)
-
-        elif control_message.message_type == ControlMessageType.GET_LANDYACHT_DIRECTION:
-            # Get the current direction of the land yacht from the compass
-            direction = compass.get_direction()
-            # Create a monitor message and put it into the monitor queue
-            monitor_message = MonitorMessage(
-                MonitorMessageType.LANDYACHT_DIRECTION,
-                direction=direction)
-            monitor_queue.put(monitor_message)
-
-        elif control_message.message_type == ControlMessageType.GET_LANDYACHT_POSITION:
-            # Get the current position of the land yacht from the GPS
-            position_x = gps.get_position_x()
-            position_y = gps.get_position_y()
-            # Create a monitor message and put it into the monitor queue
-            monitor_message = MonitorMessage(
-                MonitorMessageType.LANDYACHT_POSITION,
-                position_x=position_x,
-                position_y=position_y)
-            monitor_queue.put(monitor_message)
-
-        elif control_message.message_type == ControlMessageType.GET_LANDYACHT_SPEED:
-            # Get the current direction of the land yacht from the compass
-            speed = speedometer.get_speed()
-            # Create a monitor message and put it into the monitor queue
-            monitor_message = MonitorMessage(
-                MonitorMessageType.LANDYACHT_SPEED,
-                speed=speed)
+                MonitorMessageType.LANDYACHT_STATUS,
+                steering_wheel_angle=steering_wheel_angle,
+                sail_angle=sail_angle,
+                wind_direction=wind_direction,
+                landyacht_direction=landyacht_direction,
+                landyacht_position_x=landyacht_position_x,
+                landyacht_position_y=landyacht_position_y,
+                landyacht_speed=landyacht_speed)
             monitor_queue.put(monitor_message)
 
         elif control_message.message_type == ControlMessageType.TURN_STEERING_WHEEL:

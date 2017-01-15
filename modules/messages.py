@@ -29,12 +29,7 @@ class CommandMessage(object):
 class ControlMessageType(Enum):
     """Implements the ControlMessageType enumeration"""
     TEST_LANDYACHT = 200
-    GET_STEERING_WHEEL_ANGLE = auto()
-    GET_SAIL_ANGLE = auto()
-    GET_WIND_DIRECTION = auto()
-    GET_LANDYACHT_DIRECTION = auto()
-    GET_LANDYACHT_POSITION = auto()
-    GET_LANDYACHT_SPEED = auto()
+    GET_LANDYACHT_STATUS = auto()
     TURN_STEERING_WHEEL = auto()
     TURN_SAIL = auto()
     STOP_LANDYACHT = 299
@@ -52,22 +47,27 @@ class ControlMessage(object):
 
 class MonitorMessageType(Enum):
     """Implements the MonitorMessageType enumeration"""
-    TEST_SKIPPER = 300
-    STEERING_WHEEL_ANGLE = auto()
-    SAIL_ANGLE = auto()
-    WIND_DIRECTION = auto()
-    LANDYACHT_DIRECTION = auto()
-    LANDYACHT_POSITION = auto()
-    LANDYACHT_SPEED = auto()
+    LANDYACHT_STATUS = 300
 
 class MonitorMessage(object):
     """Implements the MonitorMessage class"""
 
-    def __init__(self, message_type, angle=None, direction=None, position_x=None, position_y=None, speed=None):
+    def __init__(
+            self,
+            message_type,
+            steering_wheel_angle=None,
+            sail_angle=None,
+            wind_direction=None,
+            landyacht_direction=None,
+            landyacht_position_x=None,
+            landyacht_position_y=None,
+            landyacht_speed=None):
         """Instantiates a MonitorMessage"""
         self.message_type = message_type
-        self.angle = angle
-        self.direction = direction
-        self.position_x = position_x
-        self.position_y = position_y
-        self.speed = speed
+        self.steering_wheel_angle = steering_wheel_angle
+        self.sail_angle = sail_angle
+        self.wind_direction = wind_direction
+        self.landyacht_direction = landyacht_direction
+        self.landyacht_position_x = landyacht_position_x
+        self.landyacht_position_y = landyacht_position_y
+        self.landyacht_speed = landyacht_speed
